@@ -1,28 +1,42 @@
 import "./App.css";
 import { Anecdote } from "./component/anecdote/anecdote";
 import { Counter } from "./component/Counter/Counter";
+import { Course } from "./component/CourseDetails/Course";
 import { Feedback } from "./component/Feedback/FeedBack";
 import { LeftRight } from "./component/LeftRight";
 import { Notes } from "./component/Notes";
 
 function App() {
-  // const course = {
-  //   name: "Half Stack application development",
-  //   parts: [
-  //     {
-  //       name: "Fundamentals of React",
-  //       exercises: 10,
-  //     },
-  //     {
-  //       name: "Using props to pass data",
-  //       exercises: 7,
-  //     },
-  //     {
-  //       name: "State of a component",
-  //       exercises: 14,
-  //     },
-  //   ],
-  // };
+  const course = {
+    name: "Half Stack application development",
+    parts: [
+      {
+        id: 1,
+        name: "Fundamentals of React",
+        exercises: 10,
+      },
+      {
+        id: 2,
+        name: "Using props to pass data",
+        exercises: 7,
+      },
+      {
+        id: 3,
+        name: "State of a component",
+        exercises: 14,
+      },
+      {
+        id: 4,
+        name: "State of a component",
+        exercises: 14,
+      },
+      {
+        id: 5,
+        name: "State of a component",
+        exercises: 14,
+      },
+    ],
+  };
 
   const notes = [
     {
@@ -51,7 +65,8 @@ function App() {
       {/* <Feedback /> */}
       {/* <Anecdote /> */}
 
-      <Notes notes={notes} />
+      {/* <Notes notes={notes} /> */}
+      <Course course={course} />
     </>
   );
 }
