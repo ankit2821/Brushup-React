@@ -4,7 +4,7 @@ export const Notes = (props) => {
   //   const { notes } = props;
   //   console.log(notes);
   const [notes, setNote] = useState(props.notes);
-  const [newNote, setNewNote] = useState("add new note");
+  const [newNote, setNewNote] = useState("");
   const [showAll, setShowAll] = useState(true);
 
   const addNote = (event) => {
@@ -26,12 +26,7 @@ export const Notes = (props) => {
   };
   //   console.log(notes);
 
-  const notesToShow = showAll
-    ? notes
-    : notes.filter((note) => {
-        console.log(note);
-        return note.important;
-      });
+  const notesToShow = showAll ? notes : notes.filter((note) => note.important);
   return (
     <>
       <h1>Notes</h1>
@@ -41,10 +36,10 @@ export const Notes = (props) => {
         ))}
       </ul>
       <button onClick={() => setShowAll(!showAll)}>
-        Show{showAll ? "important" : "All"}
+        Show{showAll ? " Important" : " All"}
       </button>
       <form onSubmit={addNote}>
-        <input onChange={handleNoteChange} type="text"></input>
+        <input onChange={handleNoteChange} type="text" value={newNote}></input>
         <button type="submit">Add note</button>
       </form>
     </>
