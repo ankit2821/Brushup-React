@@ -1,10 +1,11 @@
 import "./App.css";
 import { Anecdote } from "./component/anecdote/anecdote";
-import { Counter } from "./component/Counter/Counter";
-import { Course } from "./component/CourseDetails/Course";
-import { Feedback } from "./component/Feedback/FeedBack";
+import { Counter } from "./component/counter/Counter";
+import { Course } from "./component/courseDetails/Course";
+import { Feedback } from "./component/feedback/FeedBack";
 import { LeftRight } from "./component/LeftRight";
 import { Notes } from "./component/Notes";
+import { PhoneBook } from "./component/phoneBook/PhoneBook";
 
 function App() {
   const course = {
@@ -65,8 +66,9 @@ function App() {
       {/* <Feedback /> */}
       {/* <Anecdote /> */}
 
-      <Notes notes={notes} />
+      {/* <Notes notes={notes} /> */}
       {/* <Course course={course} /> */}
+      <PhoneBook />
     </>
   );
 }
