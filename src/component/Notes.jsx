@@ -11,14 +11,16 @@ export const Notes = (props) => {
   const addNote = (event) => {
     event.preventDefault();
     const newObj = {
-      id: Number(notes.length + 1),
+      // id: Number(notes.length + 1),
       content: newNote,
       important: Math.random() < 0.5,
     };
+    axios.post("http://localhost:3001/notes", newObj).then((response) => {
+      setNote(notes.concat(response.data));
+      // console.log(notes);
+      setNewNote("");
+    });
     // console.log(newObj);
-    setNote(notes.concat(newObj));
-    // console.log(notes);
-    setNewNote("");
   };
 
   const handleNoteChange = (event) => {
