@@ -1,9 +1,9 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Filter } from "./Filter";
 import { List } from "./List";
 import { NewPerson } from "./NewPerson";
+import { Notification } from "./Notification";
 import {
   createPerson,
   deletePerson,
@@ -12,22 +12,18 @@ import {
 } from "./services/persons";
 
 export const PhoneBook = () => {
-  // const [persons, setPersons] = useState([
-  //   { name: "Ankit Shriramwar", Ph_No: "7620870756" },
-  //   { name: "Arto Hellas", Ph_No: "040-123456" },
-  //   { name: "Ada Lovelace", Ph_No: "39-44-5323523" },
-  //   { name: "Dan Abramov", Ph_No: "12-43-234345" },
-  //   { name: "Mary Poppendieck", Ph_No: "39-23-6423122" },
-  // ]);
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filtered, setFilteredSet] = useState("");
+  const [message, setMessage] = useState({
+    text: "",
+    type: "",
+  });
 
   useEffect(() => {
     getAll().then((response) => {
       setPersons(response.data);
-      // console.log(response.data);
     });
   }, []);
 
@@ -49,10 +45,27 @@ export const PhoneBook = () => {
                 p.id !== existingPerson.id ? p : response.data
               )
             );
+            setMessage({
+              text: `${newName} is updated successfully`,
+              type: "success",
+            });
+            setTimeout(() => setMessage(null), 5000);
             setNewName("");
             setNewNumber("");
           })
           .catch((error) => {
+            setMessage({
+              text: `${newName} is already deleted from phone book`,
+              type: "error",
+            });
+            setTimeout(
+              () =>
+                setMessage({
+                  text: "",
+                  type: "",
+                }),
+              5000
+            );
             console.error("Update failed:", error);
           });
       }
@@ -64,23 +77,18 @@ export const PhoneBook = () => {
 
       createPerson(newObj).then((response) => {
         setPersons(persons.concat(response.data));
+        setMessage({
+          text: `${newName} is added to the phoneBook`,
+          type: "success",
+        });
+        setTimeout(() => {
+          setMessage({ text: null, type: null });
+        }, 5000);
         setNewName("");
         setNewNumber("");
       });
     }
-
-    // console.log("in submit", persons);
   };
-
-  // const debounce = (func, delay) => {
-  //   let timer;
-  //   return (...args) => {
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => {
-  //       func.apply(args, this);
-  //     }, delay);
-  //   };
-  // };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -107,12 +115,20 @@ export const PhoneBook = () => {
     deletePerson(id).then(() =>
       setPersons((prev) => prev.filter((p) => p.id !== id))
     );
+    setMessage({
+      text: `${name} has been deleted successfully`,
+      type: "delete",
+    });
+    setTimeout(() => {
+      setMessage({ text: null, type: null });
+    }, 5000);
     // setPersons((prev) => prev.filter((p) => p.id !== id));
   };
 
   return (
     <>
       <h2>Phonebook</h2>
+      <Notification message={message} />
 
       <h3> Add a new member</h3>
       <NewPerson

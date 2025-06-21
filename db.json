@@ -34,6 +34,11 @@
       "id": "c5dd",
       "content": "umm",
       "important": true
+    },
+    {
+      "id": "8c76",
+      "content": "sad",
+      "important": false
     }
   ],
   "persons": [
@@ -51,11 +56,6 @@
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": "3"
-    },
-    {
-      "id": "d06a",
-      "name": "ankit",
-      "number": "123456"
     }
   ]
 }

@@ -1,0 +1,24 @@
+.text {
+  width: 100%;
+  font-weight: 300;
+
+  padding: 12px;
+  border-radius: 4px;
+}
+
+.success {
+  border: rgb(65, 248, 65);
+  background-color: rgb(176, 255, 176);
+  color: black;
+}
+
+.error {
+  border: rgb(255, 137, 137);
+  background-color: rgb(191, 0, 0);
+  color: rgb(255, 255, 255);
+}
+
+.delete {
+  background-color: rgb(255, 166, 77);
+  color: rgb(0, 0, 0);
+}
