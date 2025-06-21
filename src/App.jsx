@@ -66,9 +66,9 @@ function App() {
       {/* <Feedback /> */}
       {/* <Anecdote /> */}
 
-      <Notes notes={notes} />
+      {/* <Notes notes={notes} /> */}
       {/* <Course course={course} /> */}
-      {/* <PhoneBook /> */}
+      <PhoneBook />
     </>
   );
 }

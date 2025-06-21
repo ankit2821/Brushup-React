@@ -9,10 +9,16 @@ export const NewPerson = ({
     <>
       <form onSubmit={onSubmitClick}>
         Name:{" "}
-        <input onChange={onNameChange} type="text" value={pNewName}></input>
+        <input
+          onChange={onNameChange}
+          type="text"
+          value={pNewName}
+          required
+        ></input>
         <br />
         Ph No:{" "}
         <input
+          required
           onChange={onNumberChange}
           type="number"
           value={pNewNumber}

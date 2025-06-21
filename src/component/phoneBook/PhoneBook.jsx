@@ -4,6 +4,12 @@ import { useState } from "react";
 import { Filter } from "./Filter";
 import { List } from "./List";
 import { NewPerson } from "./NewPerson";
+import {
+  createPerson,
+  deletePerson,
+  getAll,
+  updatePerson,
+} from "./services/persons";
 
 export const PhoneBook = () => {
   // const [persons, setPersons] = useState([
@@ -19,7 +25,7 @@ export const PhoneBook = () => {
   const [filtered, setFilteredSet] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    getAll().then((response) => {
       setPersons(response.data);
       // console.log(response.data);
     });
@@ -27,24 +33,42 @@ export const PhoneBook = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (
-      persons.some((obj) => {
-        return obj.name === newName || obj.Ph_No === newNumber;
-        // console.log(obj.name);
-      })
-    ) {
-      // console.log(obj);
-      alert(`${newName} or ${newNumber} already exist in the list`);
+    const existingPerson = persons.find((person) => person.name === newName);
+
+    if (existingPerson) {
+      const confirmUpdate = window.confirm(
+        `The person ${newName} already exist do you want to change the number?`
+      );
+
+      if (confirmUpdate) {
+        const updatedPerson = { ...existingPerson, number: newNumber };
+        updatePerson(existingPerson.id, updatedPerson)
+          .then((response) => {
+            setPersons(
+              persons.map((p) =>
+                p.id !== existingPerson.id ? p : response.data
+              )
+            );
+            setNewName("");
+            setNewNumber("");
+          })
+          .catch((error) => {
+            console.error("Update failed:", error);
+          });
+      }
     } else {
       const newObj = {
         name: newName,
-        Ph_No: newNumber,
+        number: newNumber,
       };
-      setPersons(persons.concat(newObj));
+
+      createPerson(newObj).then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
+        setNewNumber("");
+      });
     }
 
-    setNewName("");
-    setNewNumber("");
     // console.log("in submit", persons);
   };
 
@@ -77,6 +101,15 @@ export const PhoneBook = () => {
     person.name.toLowerCase().startsWith(filtered.toLocaleLowerCase())
   );
 
+  const handleDeletePerson = (id, name) => {
+    // console.log("handle delete:");
+    window.confirm(`Do you want to delete ${name}?`);
+    deletePerson(id).then(() =>
+      setPersons((prev) => prev.filter((p) => p.id !== id))
+    );
+    // setPersons((prev) => prev.filter((p) => p.id !== id));
+  };
+
   return (
     <>
       <h2>Phonebook</h2>
@@ -94,7 +127,7 @@ export const PhoneBook = () => {
       <Filter onNameSearch={onSearch} filteredValue={filtered} />
 
       <h3>List of members</h3>
-      <List finalSet={fileteredSet} />
+      <List finalSet={fileteredSet} onDeleteClick={handleDeletePerson} />
     </>
   );
 };
